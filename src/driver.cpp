@@ -4,32 +4,9 @@
  *
  */
 
-
+#include "tagstruct.h"
 #include <iostream>
 #include <string>
-
-
-
-
-FRXDEO001::TagStruct read(std::string fileName){
-	//READ IN FILE AND WORK WITH DATA TO MAKE A TAGSTRUCT INSTANCE
-	//RETURN A TAGSTRUCT
-}
-
-
-void print(FRXDEO001::TagStruct object){
-	//print ts object to terminal with cout
-}
-
-
-void dump(FRXDEO001::TagStruct object){
-	//write object to file called tag.txt
-}
-
-
-void list(FRXDEO001::TagStruct object, std::string tag){
-	//find tag in tag struct object and list data related to that tag 
-}
 
 
 
@@ -51,7 +28,7 @@ int main(int argc, char** argv){
 		    case('r'):
 			    std::cout << "Please enter the path of the file you want to read" << std::endl;
 			    std::cin >> fileName;
-			    //read(filename)
+			    FRXDEO001::read(fileName);
 		    	    break;
 		    case('p'):
 			    if (fileName == " "){
@@ -60,8 +37,7 @@ int main(int argc, char** argv){
 				break;
 			    }
 			    else {
-			    	std::cout << "p" << std::endl;
-				//print(filename)
+				FRXDEO001::print();
 		    	    	break;
 			    }
 		    case('d'):
@@ -71,8 +47,7 @@ int main(int argc, char** argv){
 				break;
 			    }
 			    else {
-			    	std::cout << "p" << std::endl;
-				//dump(filename)
+				FRXDEO001::write();
 		    	    	break;
 			    }
 		    case('l'):
@@ -84,7 +59,7 @@ int main(int argc, char** argv){
 			    else {
 			    	std::cout << "Enter a tag you would like to list on the terminal" << std::endl;
 				std::cin >> tagName;
-				//list(filename, tagName)
+				FRXDEO001::list();
 		    	    	break;
 			    }
 	
