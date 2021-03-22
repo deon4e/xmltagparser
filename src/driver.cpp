@@ -26,14 +26,17 @@ int main(int argc, char** argv){
 	    std::cin >> choice;
 	    switch(choice){
 		    case('r'):
+			    system("clear");
 			    std::cout << "Please enter the path of the file you want to read" << std::endl;
 			    std::cin >> fileName;
 			    FRXDEO001::read(fileName);
 		    	    break;
 		    case('p'):
+			    system("clear");
 			    if (fileName == " "){
 			    	std::cout << "Please choose a file to read in first" << std::endl;
 				std::cin >> fileName;
+				FRXDEO001::read(fileName);
 				break;
 			    }
 			    else {
@@ -41,9 +44,11 @@ int main(int argc, char** argv){
 		    	    	break;
 			    }
 		    case('d'):
+			    system("clear");
 			    if (fileName == " "){
 			    	std::cout << "Please choose a file to read in first" << std::endl;
 				std::cin >> fileName;
+				FRXDEO001::read(fileName);
 				break;
 			    }
 			    else {
@@ -51,20 +56,23 @@ int main(int argc, char** argv){
 		    	    	break;
 			    }
 		    case('l'):
+			    system("clear");
 			    if (fileName == " "){
 			    	std::cout << "Please choose a file to read in first" << std::endl;
 				std::cin >> fileName;	
+				FRXDEO001::read(fileName);
 				break;
 			    }
 			    else {
 			    	std::cout << "Enter a tag you would like to list on the terminal" << std::endl;
 				std::cin >> tagName;
-				FRXDEO001::list();
+				FRXDEO001::list(tagName);
 		    	    	break;
 			    }
 	
 		    case('q'):
-			    std::cout << "q" << std::endl;
+			    system("clear");
+			    std::cout << "Thanks for checking out my Tag Parser :)" << std::endl;
 		    	    exit(0);
 		    default:
 			    std::cout << choice << " is not a valid choice. Enter again or press 'q' to quit\n" << std::endl;

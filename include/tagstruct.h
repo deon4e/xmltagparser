@@ -7,14 +7,17 @@
 #ifndef TAGSTRUCT_H
 #define TAGSTRUCT_H
 
+#include <fstream>
 #include <string>
-
+#include <iostream>
+#include <vector>
+#include <sstream>
 namespace FRXDEO001
 {
 	void read(std::string fileName);
 	void write();
 	void print();
-	void list();
+	void list(std::string tag);
 }
 
 
