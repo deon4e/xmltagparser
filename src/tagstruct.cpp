@@ -24,16 +24,17 @@ void FRXDEO001::read(std::string fileName)
 	int numPairs;
 	int counter = 0;
 
-	//std::ifstream ifs(fileName);
-	//if (!ifs)
-	//{
-	//	std::cerr << "File failed to open" << std::endl;
-//	}
-
-	//DO FILE OPERATIONS IN A LOOP TO GET tagstruct objects
-	// record[counter] = {tagName, numPairs, content}
-
-//	ifs.close();
+	std::ifstream ifs(fileName);
+	if (!ifs)
+	{
+		std::cerr << "File failed to open" << std::endl;
+	}
+	std::string line;
+	while (getline(ifs, line)) {
+		findTag(line);
+		findContent(line);		
+	}
+	ifs.close();
 
 	TagStruct object1, object2;
 	object1.tagName = "TXT";
@@ -47,6 +48,32 @@ void FRXDEO001::read(std::string fileName)
 	record.push_back(object2);
 }
 
+std::string FRXDEO001::findTag(std::string line)
+{
+	std::string start = "<";
+	std::string stop = ">";
+	unsigned firstLim = line.find(start);
+	unsigned lastLim = line.find(stop);
+	std::string tag = line.substr(firstLim, lastLim);
+	tag = tag.substr(firstLim + start.size()); 
+	std::cout << tag << std::endl;
+	return tag;
+
+}
+
+std::string FRXDEO001::findContent(std::string line)
+{
+	std::string start = ">";
+	std::string stop = "</";
+	unsigned first_delim_pos = line.find(start);
+    	unsigned end_pos_of_first_delim = first_delim_pos + start.length();
+    	unsigned last_delim_pos = line.find(stop);
+	std::string content = line.substr(end_pos_of_first_delim,
+            last_delim_pos - end_pos_of_first_delim);
+	std::cout << content << std::endl;
+	return content;
+
+}
 
 void FRXDEO001::write()
 {	

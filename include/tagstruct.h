@@ -15,6 +15,8 @@
 namespace FRXDEO001
 {
 	void read(std::string fileName);
+	std::string findTag(std::string line);
+	std::string findContent(std::string line);	
 	void write();
 	void print();
 	void list(std::string tag);
