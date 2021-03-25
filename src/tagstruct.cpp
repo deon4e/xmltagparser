@@ -29,11 +29,12 @@ void FRXDEO001::read(std::string fileName)
 	{
 		std::cerr << "File failed to open" << std::endl;
 	}
-	std::string line;
+	std::string line, ifs_str = "";
 	while (getline(ifs, line)) {
-		findTag(line);
-		findContent(line);		
+		ifs_str.append(line);		
 	}
+
+	
 	ifs.close();
 
 	TagStruct object1, object2;
