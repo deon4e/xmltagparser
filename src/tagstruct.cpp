@@ -115,13 +115,13 @@ void FRXDEO001::write()
 {
 	system("clear");
 	char hold;
-	std::ofstream ofs("../../output/tag.txt");
+	std::ofstream ofs("../../tag.txt");
 	for (int i = 0; i < record.size(); i++)
 	{
 		ofs << record[i].tagName << ", " << record[i].numPairs << ", " << record[i].content << std::endl;
 	}
 	ofs.close();
-	std::cout << "Printed data to /output/tag.txt" << std::endl;
+	std::cout << "Printed data to tag.txt in the root directory" << std::endl;
 	std::cout << "\nPress 1 to continue" << std::endl;
 	std::cin >> hold;
 }
