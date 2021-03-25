@@ -1,2 +1,0 @@
-TXT, 2, ROFL: TOFL
-TAG, 3, HELLO

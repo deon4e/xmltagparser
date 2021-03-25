@@ -2,7 +2,7 @@ CXX      := -c++
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
 APP_DIR  := $(BUILD)/executables
-TARGET   := target
+TARGET   := driver
 INCLUDE  := -Iinclude/
 SRC      :=                      \
    $(wildcard src/*.cpp)         \

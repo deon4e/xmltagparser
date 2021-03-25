@@ -4,80 +4,115 @@
  * 21 March 2021
  */
 
-
 #include "tagstruct.h"
 
-struct TagStruct 
-{    
+struct TagStruct
+{
 	std::string tagName;
-    	int numPairs;
+	int numPairs;
 	std::string content;
 };
 
-
-std::vector <TagStruct> record;
+std::vector<TagStruct> record;
 
 void FRXDEO001::read(std::string fileName)
 {
-
-	std::string tagName, content;
-	int numPairs;
-	int counter = 0;
-
+	fileName = "../../examples/" + fileName;
 	std::ifstream ifs(fileName);
+	std::string line;
+	std::string fileStr = "";
+
 	if (!ifs)
 	{
 		std::cerr << "File failed to open" << std::endl;
 	}
-	std::string line, ifs_str = "";
-	while (getline(ifs, line)) {
-		ifs_str.append(line);		
+
+	while (std::getline(ifs, line))
+	{
+		fileStr.append(line);
 	}
 
-	
+	std::stack<std::string> openTag;
+	std::stack<int> closeTag;
+
+	int open = -1;
+	int close = -1; 
+	int closingTag = 0;
+	int i = 0;
+ 	int	size = fileStr.size(); 
+
+	while (i < size)
+	{
+		if (fileStr.substr(i, 1) == ">")
+		{
+
+			if (close < open)
+			{
+				close = i;
+				if (fileStr.substr(open + 1, 1) != "/")
+				{
+					closingTag = close;
+					closeTag.push(closingTag);
+					openTag.push(fileStr.substr(open + 1, close - open - 1));
+				}
+				else
+				{
+					std::string tagName = openTag.top();
+					openTag.pop();
+
+					int closingTag = closeTag.top();
+					closeTag.pop();
+
+					std::string content = fileStr.substr(closingTag + 1, open - closingTag - 1);
+					tag(tagName, content);
+
+					if (!openTag.empty())
+					{
+						int start = closingTag - tagName.size() - 1;
+						fileStr.erase(start, close - start + 1);
+						i = start - 1;
+						close = closeTag.top();
+					}
+				}
+			}
+		}
+		else if (fileStr.substr(i, 1) == "<")
+		{
+			open = i;
+		}
+		size = fileStr.size();
+		i++;
+	}
+
 	ifs.close();
-
-	TagStruct object1, object2;
-	object1.tagName = "TXT";
-	object1.numPairs = 2;
-	object1.content = "ROFL: TOFL";
-	record.push_back(object1);
-
-	object2.tagName = "TAG";
-	object2.numPairs = 3;
-	object2.content = "HELLO";
-	record.push_back(object2);
 }
 
-std::string FRXDEO001::findTag(std::string line)
+void FRXDEO001::tag(std::string tagName, std::string content)
 {
-	std::string start = "<";
-	std::string stop = ">";
-	unsigned firstLim = line.find(start);
-	unsigned lastLim = line.find(stop);
-	std::string tag = line.substr(firstLim, lastLim);
-	tag = tag.substr(firstLim + start.size()); 
-	std::cout << tag << std::endl;
-	return tag;
+	bool found = false;
+	int i = 0;
+	while (!found && i < record.size())
+	{
+		if (record[i++].tagName == tagName)
+		{
+			found = true;
+		}
+	}
 
-}
-
-std::string FRXDEO001::findContent(std::string line)
-{
-	std::string start = ">";
-	std::string stop = "</";
-	unsigned first_delim_pos = line.find(start);
-    	unsigned end_pos_of_first_delim = first_delim_pos + start.length();
-    	unsigned last_delim_pos = line.find(stop);
-	std::string content = line.substr(end_pos_of_first_delim,
-            last_delim_pos - end_pos_of_first_delim);
-	std::cout << content << std::endl;
-	return content;
-
+	if (found)
+	{
+		record[i - 1].content = record[i - 1].content + ":" + content;
+		record[i - 1].numPairs++;
+	}
+	else
+	{
+		TagStruct ts = {tagName, 1, content};
+		record.push_back(ts);
+	}
 }
 
 void FRXDEO001::write()
-{	
+{
 	system("clear");
 	char hold;
 	std::ofstream ofs("../../output/tag.txt");
@@ -91,7 +126,6 @@ void FRXDEO001::write()
 	std::cin >> hold;
 }
 
-
 void FRXDEO001::print()
 {
 	system("clear");
@@ -103,32 +137,27 @@ void FRXDEO001::print()
 
 	std::cout << "\nPress 1 to continue" << std::endl;
 	std::cin >> hold;
-	 
 }
 
-
-void FRXDEO001::list(std::string tag)
+void FRXDEO001::list(std::string tagName)
 {
 	system("clear");
 	char hold = 1;
-	for (int i =0; i<record.size(); i++)
+	for (int i = 0; i < record.size(); i++)
 	{
-		if (!record[i].tagName.compare(tag))
+		if (!record[i].tagName.compare(tagName))
 		{
 			std::cout << record[i].tagName << ", " << record[i].numPairs << ", " << record[i].content << std::endl;
 			hold = 0;
 			break;
 		}
-
 	}
 
-	if(hold)
+	if (hold)
 	{
-		std::cout << "There are no tags matching: " << tag << std::endl;
+		std::cout << "There are no tags matching: " << tagName << std::endl;
 	}
 
-	std::cout<<"\nPress 1 to continue" << std::endl;
+	std::cout << "\nPress 1 to continue" << std::endl;
 	std::cin >> hold;
-
 }
-

@@ -11,12 +11,14 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <sstream>
+#include <algorithm>
+
 namespace FRXDEO001
 {
 	void read(std::string fileName);
-	std::string findTag(std::string line);
-	std::string findContent(std::string line);	
+	void tag(std::string tag, std::string txt);
 	void write();
 	void print();
 	void list(std::string tag);
